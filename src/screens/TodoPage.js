@@ -2,9 +2,7 @@ import React from "react";
 import { Image, StyleSheet, View, Text, ScrollView } from "react-native";
 import { Button, Searchbar } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-
 import { useState } from 'react';
-import logo from '../assets/todoLogo.png'
 
 
 const TodoPage = () => {
@@ -25,17 +23,19 @@ const TodoPage = () => {
         <View style={styles.container}>
 
             <View style={styles.headingView}>
-                <Text style={styles.headingText}>Todo Page</Text>
+
+                <Searchbar
+                    placeholder="Search"
+                    onChangeText={onChangeSearch}
+                    value={searchQuery}
+                    style={styles.searchBar}
+                />
 
                 <Button style={styles.newTodoBtn} onPress={handleAddButtonClick}>Add New</Button>
 
             </View>
 
-            <Searchbar
-                placeholder="Search"
-                onChangeText={onChangeSearch}
-                value={searchQuery}
-            />
+
 
             <ScrollView>
 
@@ -84,6 +84,10 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         fontSize: 20,
     },
+    searchBar: {
+        width: '70%',
+
+    }
 
 
 })
