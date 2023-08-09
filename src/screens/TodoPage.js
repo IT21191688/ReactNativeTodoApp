@@ -3,7 +3,7 @@ import { Image, StyleSheet, View, Text, ScrollView } from "react-native";
 import { Button, Searchbar } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
-import { ref, onValue } from "firebase/database";
+import { ref, onValue, remove } from "firebase/database";
 import { db } from "../config/firebaseconfig";
 
 
@@ -34,6 +34,21 @@ const TodoPage = () => {
         };
 
     }, [])
+
+    const deleteTodo = (itemId) => {
+
+        const todoRef = ref(db, '/todos/' + itemId);
+
+        remove(todoRef)
+            .then(() => {
+                console.log("Todo item deleted successfully.");
+            })
+            .catch((error) => {
+                console.error("Error deleting todo item:", error);
+            });
+
+    };
+
 
 
 
@@ -71,10 +86,9 @@ const TodoPage = () => {
                                     <Text key={key}>{todos[key].description}</Text>
                                 </View>
                                 <View style={styles.btnGroup}>
-                                    <Button style={styles.buttonUp}>Update</Button>
-                                    <Button style={styles.buttonDe}>Delete</Button>
+                                    <Button onPress={() => navigation.navigate('UpdateTodo', { itemId: key })} style={styles.buttonUp}>Update</Button>
+                                    <Button onPress={() => deleteTodo({ itemId: key })} style={styles.buttonDe}>Delete</Button>
                                 </View>
-
                             </View>
                         ))
                     ) : (

@@ -19,20 +19,6 @@ const AddTodoPage = () => {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
     const handleAddTask = () => {
-        /*
-        if (todo.trim() !== '') {
-            const newTaskObject = {
-                id: Date.now().toString(),
-                task: todo, // Use the correct todo state
-                description: description,
-                date: date ? date.toISOString() : "", // Convert Date object to ISO string
-            };
-            db.database().ref('/tasks/' + newTaskObject.id).set(newTaskObject);
-            setTodo('');
-            setDescription('');
-            setDate(null);
-        }
-        */
 
         push(ref(db, '/todos'), {
             todo: todo,
