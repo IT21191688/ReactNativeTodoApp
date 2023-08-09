@@ -2,17 +2,24 @@ import React from "react";
 import { Image, StyleSheet, View, Text, ScrollView, TextInput, TouchableOpacity } from "react-native";
 import { Button, Searchbar } from 'react-native-paper';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { getFirestore } from "firebase/firestore"
+import { db } from "../config/firebaseconfig";
+import { push, ref } from "firebase/database";
+
 
 import { useState } from 'react';
 
 
 const AddTodoPage = () => {
+
+
     const [todo, setTodo] = useState('');
     const [description, setDescription] = useState('');
     const [date, setDate] = useState(null);
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
     const handleAddTask = () => {
+        /*
         if (todo.trim() !== '') {
             const newTaskObject = {
                 id: Date.now().toString(),
@@ -20,11 +27,19 @@ const AddTodoPage = () => {
                 description: description,
                 date: date ? date.toISOString() : "", // Convert Date object to ISO string
             };
-            firebase.database().ref('/tasks/' + newTaskObject.id).set(newTaskObject);
+            db.database().ref('/tasks/' + newTaskObject.id).set(newTaskObject);
             setTodo('');
             setDescription('');
             setDate(null);
         }
+        */
+
+        push(ref(db, '/todos'), {
+            todo: todo,
+            description: description,
+            date: date
+        });
+
     };
 
 
@@ -57,13 +72,13 @@ const AddTodoPage = () => {
                     style={styles.txtInput}
                     placeholder="Enter Name"
                     value={todo}
-                    onChangeText={setTodo} // Use the setTodo function to update todo state
+                    onChangeText={setTodo}
                 />
                 <TextInput
                     style={styles.txtInput}
                     placeholder="Description"
                     value={description}
-                    onChangeText={setDescription} // Use the setDescription function to update description state
+                    onChangeText={setDescription}
                 />
                 <TextInput
                     style={styles.txtInput}
