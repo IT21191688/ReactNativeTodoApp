@@ -11,37 +11,25 @@ import { Button } from "react-native-paper";
 
 
 const UpdateTodo = ({ route }) => {
-
     const { itemId } = route.params;
 
-    const [todoDetails, setTodoDetails] = useState([]);
-
-
+    const [todoDetails, setTodoDetails] = useState({});
     const [todo, setTodo] = useState('');
     const [description, setDescription] = useState('');
 
-
-
     const handleAddTask = () => {
-
         update(ref(db, '/todos'), {
             [itemId]: {
-                todo: todo,
                 description: description,
+                todo: todo
             },
         }).then(() => {
-
-            console.log("Success")
-
+            console.log("Success");
         });
-
     };
 
-
     useEffect(() => {
-
         const todoRef = ref(db, `/todos/${itemId}`);
-
         get(todoRef)
             .then(snapshot => {
                 if (snapshot.exists()) {
@@ -53,14 +41,15 @@ const UpdateTodo = ({ route }) => {
             .catch(error => {
                 console.error('Error fetching todo details:', error);
             });
+    }, []);
 
-
-    }, [])
-
+    useEffect(() => {
+        setTodo(todoDetails.todo);
+        setDescription(todoDetails.description);
+    }, [todoDetails]);
 
     return (
         <View style={styles.container}>
-
             <View style={styles.updateHeader}>
                 <Text style={styles.header}>Update Todo</Text>
             </View>
@@ -75,18 +64,12 @@ const UpdateTodo = ({ route }) => {
                     value={todoDetails.description}
                     onChangeText={setDescription}
                 />
-
-
                 <Button onPress={handleAddTask} style={styles.updateBtn}>Update</Button>
-
                 <Button style={styles.cancelBtn}>Cancel</Button>
             </View>
-
-
-
         </View>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
 

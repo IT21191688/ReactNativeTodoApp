@@ -35,9 +35,10 @@ const TodoPage = () => {
 
     }, [])
 
-    const deleteTodo = (itemId) => {
+    function deleteTodo(itemId) {
 
-        const todoRef = ref(db, '/todos/' + itemId);
+        const todoRef = ref(db, `/todos/${itemId}`);
+        console.log(itemId)
 
         remove(todoRef)
             .then(() => {
@@ -48,8 +49,6 @@ const TodoPage = () => {
             });
 
     };
-
-
 
 
     const todosKeys = Object.keys(todos);
@@ -87,7 +86,9 @@ const TodoPage = () => {
                                 </View>
                                 <View style={styles.btnGroup}>
                                     <Button onPress={() => navigation.navigate('UpdateTodo', { itemId: key })} style={styles.buttonUp}>Update</Button>
-                                    <Button onPress={() => deleteTodo({ itemId: key })} style={styles.buttonDe}>Delete</Button>
+                                    <Button onPress={() => {
+                                        deleteTodo(key);
+                                    }} style={styles.buttonDe}>Delete</Button>
                                 </View>
                             </View>
                         ))
